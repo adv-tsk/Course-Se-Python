@@ -1,46 +1,62 @@
 # -*- coding: utf-8 -*-
 
-import unittest
-
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import NoAlertPresentException
+import allure
+import pytest
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException, NoAlertPresentException
 
 from conf import config
-from tools import browsers
+from tools.wraps import find_element
 
 
-class SignIn(unittest.TestCase):
-    """Вход в систему"""
+@allure.feature('Вход пользователя в систему')
+@pytest.mark.usefixtures('wd', 'logout')
+class TestSignIn(object):
+    """Набор тестов входа пользователя в систему"""
 
-    def setUp(self):
-        self.driver = browsers.get_firefox()
-        self.driver.implicitly_wait(30)
-        self.verification_errors = []
-        self.accept_next_alert = True
+    @allure.story('Аутентификация')
+    @pytest.mark.parametrize(
+        'login, password, result',
+        [('anonymous', 'hackyoursite', True),
+         (config.USER, config.PASSWORD, False)]
+    )
+    def test_signin(self, login, password, result):
+        self.driver.get(config.BASE_URL)
 
-    def test_input_existing_user(self):
-        """
-        Проверяем вход в систему с учетными данными
-        существующего пользователя
-        """
-        driver = self.driver
-        driver.get(config.BASE_URL)
-        self.assertEqual('My movie collection - php4dvd v2.0', driver.title.strip())
-        username = driver.find_element_by_id('username')
-        username.clear()
-        username.send_keys(config.USER)
-        password = driver.find_element_by_name('password')
-        password.clear()
-        password.send_keys(config.PASSWORD)
-        driver.find_element_by_name('submit').click()
-        self.assertEqual('My movie collection - php4dvd v2.0', driver.title.strip())
+        with allure.step('Ввод логина'):
+            username = find_element(self.driver, (By.ID, 'username'))
+            username.send_keys(login)
+        with allure.step('Ввод пароля'):
+            _password = find_element(self.driver, (By.NAME, 'password'))
+            _password.send_keys(password)
+        with allure.step('Нажимаем "Войти"'):
+            find_element(self.driver, (By.NAME, 'submit')).click()
 
-    def is_element_present(self, how, what):
+        assert self.has_error_message() is result
+
+    def has_error_message(self):
         try:
-            self.driver.find_element(by=how, value=what)
-        except NoSuchElementException:
+            find_element(self.driver, (By.CSS_SELECTOR, 'td[class="error"]'))
+        except TimeoutException:
             return False
-        return True
+        else:
+            return True
+
+
+@allure.feature('Выход пользователя из системы')
+@pytest.mark.usefixtures('wd', 'login')
+class TestLogOut(object):
+    """Набор тестов выхода пользователя из системы"""
+
+    @allure.story('Выход из системы')
+    def test_logout(self):
+        self.driver.get(config.BASE_URL)
+
+        with allure.step('Нажимаем на ссылку "Log out"'):
+            find_element(self.driver, (By.LINK_TEXT, 'Log out')).click()
+
+        assert self.is_alert_present() is True
+        assert self.close_alert_and_get_its_text() == 'Are you sure you want to log out?'
 
     def is_alert_present(self):
         try:
@@ -50,20 +66,7 @@ class SignIn(unittest.TestCase):
         return True
 
     def close_alert_and_get_its_text(self):
-        try:
-            alert = self.driver.switch_to.alert
-            alert_text = alert.text
-            if self.accept_next_alert:
-                alert.accept()
-            else:
-                alert.dismiss()
-            return alert_text
-        finally:
-            self.accept_next_alert = True
-
-    def tearDown(self):
-        self.driver.quit()
-        self.assertEqual([], self.verification_errors)
-
-if __name__ == "__main__":
-    unittest.main()
+        alert = self.driver.switch_to.alert
+        alert_text = alert.text
+        alert.accept()
+        return alert_text
