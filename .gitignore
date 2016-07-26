@@ -90,6 +90,6 @@ ENV/
 
 .idea/
 tmp/
-REPORTS/
+reports/
 local_config.py
 geckodriver
