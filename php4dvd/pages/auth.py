@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import allure
 from selenium.webdriver.common.by import By
 
 from .base import BasePage
@@ -19,9 +20,10 @@ class AuthPageLocators(object):
 class AuthPage(BasePage):
     """Страница аутентификации"""
 
-    username = SimpleInput(AuthPageLocators.USERNAME_LOCATOR)
-    password = SimpleInput(AuthPageLocators.PASSWORD_LOCATOR)
+    username = SimpleInput(AuthPageLocators.USERNAME_LOCATOR, 'логин пользователя')
+    password = SimpleInput(AuthPageLocators.PASSWORD_LOCATOR, 'пароль пользователя')
 
+    @allure.step('Нажмем кнопку "Log in"')
     def click_login_button(self):
         elem = find_element(self._driver, AuthPageLocators.LOGIN_BUTTON_LOCATOR)
         elem.click()

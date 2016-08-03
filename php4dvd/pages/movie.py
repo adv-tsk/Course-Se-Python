@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import allure
 from selenium.webdriver.common.by import By
 
 from .base import BasePage
@@ -31,6 +32,7 @@ class BrowseMoviePage(BasePage):
     writer = SimpleText(BrowseMoviePageLocators.WRITER_LOCATOR)
     producer = SimpleText(BrowseMoviePageLocators.PRODUCER_LOCATOR)
 
+    @allure.step('Нажмем на кноку "Edit"')
     def click_edit_button(self):
         """
         :rtype: EditMoviePage
@@ -38,6 +40,7 @@ class BrowseMoviePage(BasePage):
         self._click(BrowseMoviePageLocators.EDIT_BUTTON_LOCATOR)
         return EditMoviePage(self._driver)
 
+    @allure.step('Нажмем на кноку "Remove"')
     def click_remove_button(self):
         """
         :rtype: HomePage
@@ -73,17 +76,18 @@ class AddMoviePage(BasePage):
         super(AddMoviePage, self).__init__(driver)
         self.nav = NavBlock(driver)
 
-    title = SimpleInput(AddMoviePageLocators.TITLE_INPUT_LOCATOR)
-    also_know_as = SimpleInput(AddMoviePageLocators.ALSO_KNOWN_AS_INPUT_LOCATOR)
-    year = SimpleInput(AddMoviePageLocators.YEAR_INPUT_LOCATOR)
-    duration = SimpleInput(AddMoviePageLocators.DURATION_INPUT_LOCATOR)
-    trailer_url = SimpleInput(AddMoviePageLocators.TRAILER_URL_INPUT_LOCATOR)
-    format = SimpleInput(AddMoviePageLocators.FORMAT_INPUT_LOCATOR)
-    country = SimpleInput(AddMoviePageLocators.COUNTRY_INPUT_LOCATOR)
-    director = SimpleInput(AddMoviePageLocators.DIRECTOR_INPUT_LOCATOR)
-    writer = SimpleInput(AddMoviePageLocators.WRITER_INPUT_LOCATOR)
-    producer = SimpleInput(AddMoviePageLocators.PRODUCER_INPUT_LOCATOR)
+    title = SimpleInput(AddMoviePageLocators.TITLE_INPUT_LOCATOR, 'название фильма')
+    also_know_as = SimpleInput(AddMoviePageLocators.ALSO_KNOWN_AS_INPUT_LOCATOR, 'оригинальное название фильма')
+    year = SimpleInput(AddMoviePageLocators.YEAR_INPUT_LOCATOR, 'год')
+    duration = SimpleInput(AddMoviePageLocators.DURATION_INPUT_LOCATOR, 'продолжительность')
+    trailer_url = SimpleInput(AddMoviePageLocators.TRAILER_URL_INPUT_LOCATOR, 'адрес трейлера')
+    format = SimpleInput(AddMoviePageLocators.FORMAT_INPUT_LOCATOR, 'формат')
+    country = SimpleInput(AddMoviePageLocators.COUNTRY_INPUT_LOCATOR, 'страну')
+    director = SimpleInput(AddMoviePageLocators.DIRECTOR_INPUT_LOCATOR, 'директора')
+    writer = SimpleInput(AddMoviePageLocators.WRITER_INPUT_LOCATOR, 'сценариста')
+    producer = SimpleInput(AddMoviePageLocators.PRODUCER_INPUT_LOCATOR, 'продюсера')
 
+    @allure.step('Нажмем на кноку "Save"')
     def click_save_button(self):
         """
         :rtype: BrowseMoviePage
@@ -113,6 +117,7 @@ class EditMoviePageLocators(object):
 class EditMoviePage(AddMoviePage):
     """Страница редактирования описания фильма"""
 
+    @allure.step('Нажмем на кноку "Remove"')
     def click_remove_button(self):
         """
         :rtype: HomePage

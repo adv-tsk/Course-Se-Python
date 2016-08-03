@@ -43,6 +43,7 @@ def driver(browser_type, base_url):
         version=browser.capabilities['version'],
         platform=browser.capabilities['platform'],
     )
+    browser.maximize_window()
     browser.get(base_url)
     yield browser
     browser.quit()

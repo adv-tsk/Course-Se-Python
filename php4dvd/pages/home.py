@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
@@ -28,6 +29,7 @@ class HomePage(BasePage):
         super(HomePage, self).__init__(driver)
         self.nav = NavBlock(driver)
 
+    @allure.step('Нажмем кнопку "Add movie"')
     def click_add_movie_button(self):
         """
         :rtype: AddMoviePage
@@ -36,6 +38,7 @@ class HomePage(BasePage):
         from .movie import AddMoviePage
         return AddMoviePage(self._driver)
 
+    @allure.step('Нажмем кнопку "Update all"')
     def click_update_all_button(self):
         """
         :rtype: HomePage
@@ -43,9 +46,11 @@ class HomePage(BasePage):
         self._click(HomePageLocators.UPDATE_ALL_BUTTON_LOCATOR)
         return self
 
+    @allure.step('Нажмем кнопку "Export all"')
     def click_export_all_button(self):
         self._click(HomePageLocators.EXPORT_ALL_BUTTON_LOCATOR)
 
+    @allure.step(u'Произведем поиск фильма "{1}"')
     def search_movie(self, value):
         """
         :type value: unicode
@@ -67,6 +72,7 @@ class HomePage(BasePage):
         elem = find_element(self._driver, HomePageLocators.NOT_FOUND_MESSAGE_LOCATOR)
         return elem.text == HomePageLocators.NOT_FOUND_MESSAGE_CONTENT
 
+    @allure.step('Перейдем на страницу просмотра фильма "{1}"')
     def go_to_browse_movie(self, value):
         """
         :rtype: BrowseMoviePage
