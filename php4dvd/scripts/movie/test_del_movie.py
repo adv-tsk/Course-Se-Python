@@ -21,3 +21,4 @@ class TestDeletingMovie(object):
         page.search_movie(movie.name)
 
         assert page.movie_is_not_found()
+        page.nav.go_to_home_page()

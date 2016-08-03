@@ -21,6 +21,7 @@ class TestAddingMovie(object):
         page.click_save_button()
 
         assert page.title_field_is_required_present()
+        page.nav.go_to_home_page()
 
     @allure.story('Создание описания фильма без заполнения обязательного поля "Year"')
     def test_adding_movie_without_required_year_field(self, movie_with_wrong_data):
@@ -32,6 +33,7 @@ class TestAddingMovie(object):
         page.click_save_button()
 
         assert page.year_field_is_required_present()
+        page.nav.go_to_home_page()
 
     @allure.story('Создание описания фильма со всеми обязательными полями')
     def test_adding_movie_with_all_required_fields(self, movie_with_only_required_fields):
@@ -44,6 +46,7 @@ class TestAddingMovie(object):
         page = page.click_save_button()
 
         assert page.title == u'{:s} ({:d})'.format(movie.name, movie.year)
+        page.nav.go_to_home_page()
     
     @allure.story('Создание описания фильма с заполнением обязательных и доп. полей')
     def test_adding_movie_with_required_and_additional_fields(self, movie_with_additional_fields):
@@ -64,3 +67,4 @@ class TestAddingMovie(object):
         page = page.click_save_button()
 
         assert page.title == u'{:s} ({:d})'.format(movie.name, movie.year)
+        page.nav.go_to_home_page()

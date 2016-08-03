@@ -50,4 +50,5 @@ def movie_for_deletion(driver):
     page.title = Movie.name
     page.year = Movie.year
     page.click_save_button()
+    page.nav.go_to_home_page()
     return Movie
