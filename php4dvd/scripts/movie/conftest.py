@@ -4,14 +4,14 @@ from __future__ import unicode_literals
 
 import pytest
 from conf import config
-from tools.wraps import find_element
-from selenium.webdriver.common.by import By
+from pages.home import HomePage
 
 
 @pytest.fixture
 def movie_with_wrong_data():
     class Movie(object):
         name = 'Охотники за приведениями'
+        year = 1979
     return Movie
 
 
@@ -45,10 +45,11 @@ def movie_for_deletion(driver):
     class Movie(object):
         name = 'Парни со стволами'
         year = 2016
-    # для начала создадим фильм, который потом будем удалять
     driver.get(config.BASE_URL)
-    find_element(driver, (By.CSS_SELECTOR, 'img[title="Add movie"]')).click()
-    find_element(driver, (By.NAME, 'name')).send_keys(Movie.name)
-    find_element(driver, (By.NAME, 'year')).send_keys(Movie.year)
-    find_element(driver, (By.ID, 'submit')).click()
+    # для начала создадим фильм, который потом будем удалять
+    page = HomePage(driver)
+    page = page.click_add_movie_button()
+    page.title = Movie.name
+    page.year = Movie.year
+    page.click_save_button()
     return Movie

@@ -7,6 +7,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(inspect.getfile(inspe
 
 BASE_URL = ''
 
+DEFAULT_BROWSER = 'firefox'
+
 USER = ''
 PASSWORD = ''
 

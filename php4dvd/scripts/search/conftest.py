@@ -5,19 +5,17 @@ from __future__ import unicode_literals
 import pytest
 
 
-class MovieExists(object):
-    name = 'Ураган'
-    year = 2018
+@pytest.fixture
+def movie_exists():
+    class Movie(object):
+        name = 'Ураган'
+        year = 2018
+    return Movie
 
 
-class MovieNotExists(object):
-    name = 'XXX'
-    year = 1970
-
-
-@pytest.fixture(scope='function', params=[
-    (MovieExists, True),
-    (MovieNotExists, False),
-])
-def movie_set_data(request):
-    return request.param
+@pytest.fixture
+def movie_not_exists():
+    class Movie(object):
+        name = 'XXX'
+        year = 1970
+    return Movie
