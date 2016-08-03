@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import pytest
-from conf import config
 from pages.home import HomePage
 
 
@@ -45,7 +44,6 @@ def movie_for_deletion(driver):
     class Movie(object):
         name = 'Парни со стволами'
         year = 2016
-    driver.get(config.BASE_URL)
     # для начала создадим фильм, который потом будем удалять
     page = HomePage(driver)
     page = page.click_add_movie_button()

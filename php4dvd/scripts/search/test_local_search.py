@@ -3,7 +3,6 @@
 import allure
 import pytest
 
-from conf import config
 from pages.home import HomePage
 
 
@@ -16,8 +15,6 @@ class TestLocalSearch(object):
     def test_search_existing_movie(self, movie_exists):
         movie = movie_exists
 
-        self.driver.get(config.BASE_URL)
-
         page = HomePage(self.driver)
         page.search_movie(movie.name)
 
@@ -26,8 +23,6 @@ class TestLocalSearch(object):
     @allure.story('Поиск несуществующего фильма')
     def test_search_not_existing_movie(self, movie_not_exists):
         movie = movie_not_exists
-
-        self.driver.get(config.BASE_URL)
 
         page = HomePage(self.driver)
         page.search_movie(movie.name)

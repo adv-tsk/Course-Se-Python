@@ -32,7 +32,7 @@ def base_url(request):
 #
 
 @pytest.yield_fixture(scope='session')
-def driver(browser_type):
+def driver(browser_type, base_url):
     """Драйвер браузера"""
     if browser_type == 'firefox':
         browser = browsers.get_firefox()
@@ -43,6 +43,7 @@ def driver(browser_type):
         version=browser.capabilities['version'],
         platform=browser.capabilities['platform'],
     )
+    browser.get(base_url)
     yield browser
     browser.quit()
 
@@ -63,7 +64,6 @@ def admin():
 @pytest.yield_fixture(scope='class')
 def login(driver, admin):
     """Вход в систему"""
-    driver.get(config.BASE_URL)
     page = AuthPage(driver)
     page.username = admin.login
     page.password = admin.password
@@ -75,5 +75,4 @@ def login(driver, admin):
 def logout(driver):
     """Выход из системы"""
     yield
-    driver.get(config.BASE_URL)
     HomePage(driver).nav.click_logout_button()

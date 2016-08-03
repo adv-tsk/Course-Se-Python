@@ -3,7 +3,6 @@
 import allure
 import pytest
 
-from conf import config
 from pages.home import HomePage
 
 
@@ -16,8 +15,6 @@ class TestAddingMovie(object):
     def test_adding_movie_without_required_title_field(self, movie_with_wrong_data):
         movie = movie_with_wrong_data
 
-        self.driver.get(config.BASE_URL)
-
         page = HomePage(self.driver)
         page = page.click_add_movie_button()
         page.year = movie.year
@@ -28,8 +25,6 @@ class TestAddingMovie(object):
     @allure.story('Создание описания фильма без заполнения обязательного поля "Year"')
     def test_adding_movie_without_required_year_field(self, movie_with_wrong_data):
         movie = movie_with_wrong_data
-
-        self.driver.get(config.BASE_URL)
 
         page = HomePage(self.driver)
         page = page.click_add_movie_button()
@@ -42,8 +37,6 @@ class TestAddingMovie(object):
     def test_adding_movie_with_all_required_fields(self, movie_with_only_required_fields):
         movie = movie_with_only_required_fields
 
-        self.driver.get(config.BASE_URL)
-
         page = HomePage(self.driver)
         page = page.click_add_movie_button()
         page.title = movie.name
@@ -55,8 +48,6 @@ class TestAddingMovie(object):
     @allure.story('Создание описания фильма с заполнением обязательных и доп. полей')
     def test_adding_movie_with_required_and_additional_fields(self, movie_with_additional_fields):
         movie = movie_with_additional_fields
-
-        self.driver.get(config.BASE_URL)
 
         page = HomePage(self.driver)
         page = page.click_add_movie_button()
