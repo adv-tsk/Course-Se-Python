@@ -30,8 +30,7 @@ def movie_with_additional_fields():
         year = 2016
         duration = '87'
         format = 'Blu-ray'
-        trailer = 'http://www.kinopoisk.ru/getlink.php?id=309084&type=trailer&link=' \
-                  'https://kp.cdn.yandex.net/743088/kinopoisk.ru-Secret-Life-of-Pets_-The-309084.mp4'
+        trailer = 'https://kp.cdn.yandex.net/743088/kinopoisk.ru-Secret-Life-of-Pets_-The-309084.mp4'
         country = 'Япония, США'
         director = 'Ярроу Чейни, Крис Рено'
         writer = 'Синко Пол, Кен Даурио, Брайан Линч'
